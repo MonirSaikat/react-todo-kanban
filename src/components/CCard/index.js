@@ -2,19 +2,22 @@ import React, { useState } from 'react';
 import { AiTwotoneDelete } from "react-icons/ai";
 import { BiMoveHorizontal } from "react-icons/bi";
 import useBoards from 'hooks/use-boards';
-import MyModal from 'components/Modal';
+import CModal from 'components/CModal';
 import CButton from 'components/CButton';
 import 'assets/Card.scss';
 import { Card } from 'react-bootstrap';
 
 const CCard = ({
   boardId,
-  item
+  showModal,
+  item,
+  ...rest
 }) => {
   const { removeItem } = useBoards();
   const handleRemove = () => removeItem(boardId, item.id);
   const [move, setMove] = useState();
   const { boards, moveItem } = useBoards();
+  const [showtask, setShowTask] = useState(false);
 
   const handleUpdate = (nextBoardId) => {
     moveItem(boardId, nextBoardId, item.id);
@@ -35,15 +38,15 @@ const CCard = ({
   });
 
   return (
-    <Card className="card item">
-      <MyModal
+    <Card className="card item" {...rest}>
+      <CModal
         title="Move task to : "
         setShow={() => setMove(false)}
         show={move}
       >
         {renderdBoards}
-      </MyModal>
-      <span>{item.text}</span>
+      </CModal>
+      <span className='text' onClick={showModal}>{item.name}</span>
 
       <div className="menu">
         <span>

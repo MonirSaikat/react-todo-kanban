@@ -1,16 +1,14 @@
 import Modal from "react-bootstrap/Modal";
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
+import React from "react";
 import Button from 'components/CButton';
 
-const MyModal = ({
+const CModal = ({
   show,
   setShow,
   children,
   title
 }) => {
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -29,4 +27,4 @@ const MyModal = ({
   );
 };
 
-export default MyModal;
+export default CModal;

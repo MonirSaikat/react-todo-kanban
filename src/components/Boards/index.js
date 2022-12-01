@@ -8,7 +8,7 @@ const Boards = () => {
   return (
     <div className="row boards">
       {boards.map((board) => (
-        <div className="col-md-4" key={board.id}>
+        <div className="mt-3 md-mt-0 col-md-4" key={board.id}>
           <Board board={board} />
         </div>
       ))}

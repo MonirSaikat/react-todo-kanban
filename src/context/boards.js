@@ -39,14 +39,12 @@ function BoardProvider({ children }) {
     setValue(boards);
   };
 
-  const addItem = (boardId, text) => {
-    if(text.trim().length === 0) return;
+  const addItem = (boardId, data) => {
+    if(data?.name?.trim().length === 0) return alert('Task name can not be empty');
 
     const item = {
       id: new Date().valueOf(),
-      date: new Date(),
-      details: '',
-      text
+      ...data
     };
 
     const updatedBoards = boards.map((board) => {

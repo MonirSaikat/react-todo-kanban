@@ -1,36 +1,68 @@
 import Button from 'components/CButton';
 import React, { useState } from 'react';
-import Input from 'components/Input';
-import useBoards from 'hooks/use-boards';
 import CCard from 'components/CCard';
-import { Card, Form } from 'react-bootstrap';
+import { Card, Table } from 'react-bootstrap';
+import AddTask from 'components/AddTask';
 import 'assets/Board.scss';
+import CModal from 'components/CModal';
 
 const Board = ({
   board
 }) => {
   const {title, items, color} = board;
   const [adding, setAdding] = useState(false);
-  const { addItem } = useBoards();
-  const [input, setInput] = useState('');
+  const [showTask, setShowTask] = useState(false);
+  const [showingTask, setShowingTask] = useState(null);
 
   const handleClick = () => setAdding(!adding);
-  const handleChange = e => setInput(e.target.value);
+  const closeAdding = () => setAdding(false);
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    addItem(board.id, input);
-    setInput('');
+  const handleShowTask = (task) => {
+    setShowTask(true);
+    setShowingTask(task);
   };
 
   const renderItems = items.map((item) => {
     return (
-      <CCard key={item.id} boardId={board.id} item={item} />
+      <CCard
+        key={item.id}
+        boardId={board.id}
+        item={item}
+        showModal={() => handleShowTask(item)}
+      />
     );
   });
 
+  const renderShowTask = showTask && (
+    <CModal
+      show={showingTask}
+      setShow={() => setShowTask(false)}
+      title={showingTask.name}
+    >
+      <Table striped  hover>
+        <tr>
+          <th>Name</th>
+          <td>{showingTask.name || 'N/A'}</td>
+        </tr>
+        <tr>
+          <th>Description</th>
+          <td>{showingTask.description || 'N/A'}</td>
+        </tr>
+        <tr>
+          <th>Assigned User</th>
+          <td>{showingTask.user || 'N/A'}</td>
+        </tr>
+        <tr>
+          <th>Date</th>
+          <td>{showingTask.date || 'N/A'}</td>
+        </tr>
+      </Table>
+    </CModal>
+  );
+
   return (
     <Card className="card board">
+      {renderShowTask}
       <Card.Title
         style={{
           backgroundColor: color,
@@ -39,18 +71,20 @@ const Board = ({
         {title}
       </Card.Title>
 
-      <Card.Body body>
+      <Card.Body>
         {renderItems}
-
-        <Form onSubmit={handleSubmit}>
-          {adding && (
-            <Input
-              value={input}
-              onChange={handleChange}
-              placeholder="Enter new task"
+        {adding && (
+          <CModal
+            title="Add new task"
+            show={adding}
+            setShow={closeAdding}
+          >
+            <AddTask
+              boardId={board.id}
+              closeAdding={closeAdding}
             />
-          )}
-        </Form>
+          </CModal>
+        )}
 
         <Button
           className={`mt-2 ${adding && "btn-danger"}`}
@@ -58,11 +92,6 @@ const Board = ({
         >
           {adding ? "Cancel" : "Add task"}
         </Button>
-        {adding && (
-          <Button className="mt-2" onClick={handleSubmit}>
-            Add Task
-          </Button>
-        )}
       </Card.Body>
     </Card>
   );

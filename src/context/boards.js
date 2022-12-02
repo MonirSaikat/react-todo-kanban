@@ -27,11 +27,13 @@ function BoardProvider({ children }) {
   ]);
   const [storedValue, setValue] = useLocalStorage("boards", boards);
 
-  const addBoard = (title) => {
+  const addBoard = (title,color) => {
     setBoards((prevBoard) => {
       const newBoard = {
         id: new Date().valueOf(),
-        title
+        title,
+        color,
+        items: [],
       };
 
       return [...prevBoard, newBoard];

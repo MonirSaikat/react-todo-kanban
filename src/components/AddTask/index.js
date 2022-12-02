@@ -61,7 +61,7 @@ const AddTask = ({ boardId, closeAdding }) => {
         placeholder="Date"
         className="mt-2"
       />
-      <Button type="submit" className="mt-2">
+      <Button type="submit" className="mt-2 btn-full btn-dark">
         Add Task
       </Button>
     </Form>

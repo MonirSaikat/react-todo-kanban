@@ -87,10 +87,10 @@ const Board = ({
         )}
 
         <Button
-          className={`mt-2 ${adding && "btn-danger"}`}
+          className={`mt-2 btn-dark btn-full`}
           onClick={handleClick}
         >
-          {adding ? "Cancel" : "Add task"}
+          Add Task
         </Button>
       </Card.Body>
     </Card>

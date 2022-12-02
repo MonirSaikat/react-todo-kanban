@@ -4,8 +4,8 @@ import { BiMoveHorizontal } from "react-icons/bi";
 import useBoards from 'hooks/use-boards';
 import CModal from 'components/CModal';
 import CButton from 'components/CButton';
-import 'assets/Card.scss';
 import { Card } from 'react-bootstrap';
+import 'assets/Card.scss';
 
 const CCard = ({
   boardId,
@@ -17,7 +17,6 @@ const CCard = ({
   const handleRemove = () => removeItem(boardId, item.id);
   const [move, setMove] = useState();
   const { boards, moveItem } = useBoards();
-  const [showtask, setShowTask] = useState(false);
 
   const handleUpdate = (nextBoardId) => {
     moveItem(boardId, nextBoardId, item.id);
@@ -26,7 +25,8 @@ const CCard = ({
   const renderdBoards = boards.map((board) => {
     const button = (
       <CButton
-        className={"mb-2"}
+        className={"mb-2 btn-full"}
+        style={{backgroundColor: board.color}}
         onClick={() => handleUpdate(board.id)}
         key={board.id}
       >
